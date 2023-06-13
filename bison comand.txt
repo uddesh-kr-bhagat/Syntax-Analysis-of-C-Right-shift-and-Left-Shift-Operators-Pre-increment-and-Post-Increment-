@@ -1,0 +1,6 @@
+bison -d project2.y
+
+flex project2.l
+gcc lex.yy.c project2.tab.c
+
+a.exe

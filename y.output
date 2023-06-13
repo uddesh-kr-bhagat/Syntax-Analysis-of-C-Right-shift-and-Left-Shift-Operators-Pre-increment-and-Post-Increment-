@@ -1,0 +1,786 @@
+State 1 conflicts: 1 reduce/reduce
+
+
+Grammar
+
+    0 $accept: statement $end
+
+    1 statement: expr SEMI NL
+    2          | err NL
+
+    3 expr: CLB X CRB
+    4     | X
+
+    5 Y: CLB X CRB RB
+    6  | LB CLB X CRB
+    7  | LB X CRB
+    8  | CLB X RB
+    9  | LB CLB X CRB RB
+
+   10 X: PP N
+   11  | N PP
+   12  | M LS M
+   13  | M RS M
+   14  | LB X RB
+
+   15 N: ID
+   16  | LB N RB
+   17  | LB PTR ID RB
+
+   18 M: ID
+   19  | NUMBER
+   20  | LB M RB
+
+   21 err: PP
+   22    | M SEMI
+   23    | LS M
+   24    | M LS
+   25    | M SPACE M
+   26    | RS M
+   27    | M RS
+   28    | X CRB
+   29    | CLB X
+   30    | X RB
+   31    | LB X
+   32    | Y
+   33    | expr
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 15 17 18
+PP (259) 10 11 21
+LS (260) 12 23 24
+RS (261) 13 26 27
+LB (262) 6 7 9 14 16 17 20 31
+RB (263) 5 8 9 14 16 17 20 30
+NUMBER (264) 19
+SEMI (265) 1 22
+PTR (266) 17
+NL (267) 1 2
+SPACE (268) 25
+CLB (269) 3 5 6 8 9 29
+CRB (270) 3 5 6 7 9 28
+
+
+Nonterminals, with rules where they appear
+
+$accept (16)
+    on left: 0
+statement (17)
+    on left: 1 2, on right: 0
+expr (18)
+    on left: 3 4, on right: 1 33
+Y (19)
+    on left: 5 6 7 8 9, on right: 32
+X (20)
+    on left: 10 11 12 13 14, on right: 3 4 5 6 7 8 9 14 28 29 30 31
+N (21)
+    on left: 15 16 17, on right: 10 11 16
+M (22)
+    on left: 18 19 20, on right: 12 13 20 22 23 24 25 26 27
+err (23)
+    on left: 21 22 23 24 25 26 27 28 29 30 31 32 33, on right: 2
+
+
+state 0
+
+    0 $accept: . statement $end
+    1 statement: . expr SEMI NL
+    2          | . err NL
+    3 expr: . CLB X CRB
+    4     | . X
+    5 Y: . CLB X CRB RB
+    6  | . LB CLB X CRB
+    7  | . LB X CRB
+    8  | . CLB X RB
+    9  | . LB CLB X CRB RB
+   10 X: . PP N
+   11  | . N PP
+   12  | . M LS M
+   13  | . M RS M
+   14  | . LB X RB
+   15 N: . ID
+   16  | . LB N RB
+   17  | . LB PTR ID RB
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   21 err: . PP
+   22    | . M SEMI
+   23    | . LS M
+   24    | . M LS
+   25    | . M SPACE M
+   26    | . RS M
+   27    | . M RS
+   28    | . X CRB
+   29    | . CLB X
+   30    | . X RB
+   31    | . LB X
+   32    | . Y
+   33    | . expr
+
+    ID      shift, and go to state 1
+    PP      shift, and go to state 2
+    LS      shift, and go to state 3
+    RS      shift, and go to state 4
+    LB      shift, and go to state 5
+    NUMBER  shift, and go to state 6
+    CLB     shift, and go to state 7
+
+    statement  go to state 8
+    expr       go to state 9
+    Y          go to state 10
+    X          go to state 11
+    N          go to state 12
+    M          go to state 13
+    err        go to state 14
+
+
+state 1
+
+   15 N: ID .  [PP, RB]
+   18 M: ID .  [LS, RS, RB, SEMI, SPACE]
+
+    PP        reduce using rule 15 (N)
+    RB        reduce using rule 15 (N)
+    RB        [reduce using rule 18 (M)]
+    $default  reduce using rule 18 (M)
+
+
+state 2
+
+   10 X: PP . N
+   15 N: . ID
+   16  | . LB N RB
+   17  | . LB PTR ID RB
+   21 err: PP .  [NL]
+
+    ID  shift, and go to state 15
+    LB  shift, and go to state 16
+
+    $default  reduce using rule 21 (err)
+
+    N  go to state 17
+
+
+state 3
+
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   23 err: LS . M
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    M  go to state 20
+
+
+state 4
+
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   26 err: RS . M
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    M  go to state 21
+
+
+state 5
+
+    6 Y: LB . CLB X CRB
+    7  | LB . X CRB
+    9  | LB . CLB X CRB RB
+   10 X: . PP N
+   11  | . N PP
+   12  | . M LS M
+   13  | . M RS M
+   14  | . LB X RB
+   14  | LB . X RB
+   15 N: . ID
+   16  | . LB N RB
+   16  | LB . N RB
+   17  | . LB PTR ID RB
+   17  | LB . PTR ID RB
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   20  | LB . M RB
+   31 err: LB . X
+
+    ID      shift, and go to state 1
+    PP      shift, and go to state 22
+    LB      shift, and go to state 23
+    NUMBER  shift, and go to state 6
+    PTR     shift, and go to state 24
+    CLB     shift, and go to state 25
+
+    X  go to state 26
+    N  go to state 27
+    M  go to state 28
+
+
+state 6
+
+   19 M: NUMBER .
+
+    $default  reduce using rule 19 (M)
+
+
+state 7
+
+    3 expr: CLB . X CRB
+    5 Y: CLB . X CRB RB
+    8  | CLB . X RB
+   10 X: . PP N
+   11  | . N PP
+   12  | . M LS M
+   13  | . M RS M
+   14  | . LB X RB
+   15 N: . ID
+   16  | . LB N RB
+   17  | . LB PTR ID RB
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   29 err: CLB . X
+
+    ID      shift, and go to state 1
+    PP      shift, and go to state 22
+    LB      shift, and go to state 23
+    NUMBER  shift, and go to state 6
+
+    X  go to state 29
+    N  go to state 12
+    M  go to state 30
+
+
+state 8
+
+    0 $accept: statement . $end
+
+    $end  shift, and go to state 31
+
+
+state 9
+
+    1 statement: expr . SEMI NL
+   33 err: expr .  [NL]
+
+    SEMI  shift, and go to state 32
+
+    $default  reduce using rule 33 (err)
+
+
+state 10
+
+   32 err: Y .
+
+    $default  reduce using rule 32 (err)
+
+
+state 11
+
+    4 expr: X .  [SEMI, NL]
+   28 err: X . CRB
+   30    | X . RB
+
+    RB   shift, and go to state 33
+    CRB  shift, and go to state 34
+
+    $default  reduce using rule 4 (expr)
+
+
+state 12
+
+   11 X: N . PP
+
+    PP  shift, and go to state 35
+
+
+state 13
+
+   12 X: M . LS M
+   13  | M . RS M
+   22 err: M . SEMI
+   24    | M . LS
+   25    | M . SPACE M
+   27    | M . RS
+
+    LS     shift, and go to state 36
+    RS     shift, and go to state 37
+    SEMI   shift, and go to state 38
+    SPACE  shift, and go to state 39
+
+
+state 14
+
+    2 statement: err . NL
+
+    NL  shift, and go to state 40
+
+
+state 15
+
+   15 N: ID .
+
+    $default  reduce using rule 15 (N)
+
+
+state 16
+
+   15 N: . ID
+   16  | . LB N RB
+   16  | LB . N RB
+   17  | . LB PTR ID RB
+   17  | LB . PTR ID RB
+
+    ID   shift, and go to state 15
+    LB   shift, and go to state 16
+    PTR  shift, and go to state 24
+
+    N  go to state 41
+
+
+state 17
+
+   10 X: PP N .
+
+    $default  reduce using rule 10 (X)
+
+
+state 18
+
+   18 M: ID .
+
+    $default  reduce using rule 18 (M)
+
+
+state 19
+
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   20  | LB . M RB
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    M  go to state 42
+
+
+state 20
+
+   23 err: LS M .
+
+    $default  reduce using rule 23 (err)
+
+
+state 21
+
+   26 err: RS M .
+
+    $default  reduce using rule 26 (err)
+
+
+state 22
+
+   10 X: PP . N
+   15 N: . ID
+   16  | . LB N RB
+   17  | . LB PTR ID RB
+
+    ID  shift, and go to state 15
+    LB  shift, and go to state 16
+
+    N  go to state 17
+
+
+state 23
+
+   10 X: . PP N
+   11  | . N PP
+   12  | . M LS M
+   13  | . M RS M
+   14  | . LB X RB
+   14  | LB . X RB
+   15 N: . ID
+   16  | . LB N RB
+   16  | LB . N RB
+   17  | . LB PTR ID RB
+   17  | LB . PTR ID RB
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   20  | LB . M RB
+
+    ID      shift, and go to state 1
+    PP      shift, and go to state 22
+    LB      shift, and go to state 23
+    NUMBER  shift, and go to state 6
+    PTR     shift, and go to state 24
+
+    X  go to state 43
+    N  go to state 27
+    M  go to state 28
+
+
+state 24
+
+   17 N: LB PTR . ID RB
+
+    ID  shift, and go to state 44
+
+
+state 25
+
+    6 Y: LB CLB . X CRB
+    9  | LB CLB . X CRB RB
+   10 X: . PP N
+   11  | . N PP
+   12  | . M LS M
+   13  | . M RS M
+   14  | . LB X RB
+   15 N: . ID
+   16  | . LB N RB
+   17  | . LB PTR ID RB
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+
+    ID      shift, and go to state 1
+    PP      shift, and go to state 22
+    LB      shift, and go to state 23
+    NUMBER  shift, and go to state 6
+
+    X  go to state 45
+    N  go to state 12
+    M  go to state 30
+
+
+state 26
+
+    7 Y: LB X . CRB
+   14 X: LB X . RB
+   31 err: LB X .  [NL]
+
+    RB   shift, and go to state 46
+    CRB  shift, and go to state 47
+
+    $default  reduce using rule 31 (err)
+
+
+state 27
+
+   11 X: N . PP
+   16 N: LB N . RB
+
+    PP  shift, and go to state 35
+    RB  shift, and go to state 48
+
+
+state 28
+
+   12 X: M . LS M
+   13  | M . RS M
+   20 M: LB M . RB
+
+    LS  shift, and go to state 49
+    RS  shift, and go to state 50
+    RB  shift, and go to state 51
+
+
+state 29
+
+    3 expr: CLB X . CRB
+    5 Y: CLB X . CRB RB
+    8  | CLB X . RB
+   29 err: CLB X .  [NL]
+
+    RB   shift, and go to state 52
+    CRB  shift, and go to state 53
+
+    $default  reduce using rule 29 (err)
+
+
+state 30
+
+   12 X: M . LS M
+   13  | M . RS M
+
+    LS  shift, and go to state 49
+    RS  shift, and go to state 50
+
+
+state 31
+
+    0 $accept: statement $end .
+
+    $default  accept
+
+
+state 32
+
+    1 statement: expr SEMI . NL
+
+    NL  shift, and go to state 54
+
+
+state 33
+
+   30 err: X RB .
+
+    $default  reduce using rule 30 (err)
+
+
+state 34
+
+   28 err: X CRB .
+
+    $default  reduce using rule 28 (err)
+
+
+state 35
+
+   11 X: N PP .
+
+    $default  reduce using rule 11 (X)
+
+
+state 36
+
+   12 X: M LS . M
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   24 err: M LS .  [NL]
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    $default  reduce using rule 24 (err)
+
+    M  go to state 55
+
+
+state 37
+
+   13 X: M RS . M
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   27 err: M RS .  [NL]
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    $default  reduce using rule 27 (err)
+
+    M  go to state 56
+
+
+state 38
+
+   22 err: M SEMI .
+
+    $default  reduce using rule 22 (err)
+
+
+state 39
+
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+   25 err: M SPACE . M
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    M  go to state 57
+
+
+state 40
+
+    2 statement: err NL .
+
+    $default  reduce using rule 2 (statement)
+
+
+state 41
+
+   16 N: LB N . RB
+
+    RB  shift, and go to state 48
+
+
+state 42
+
+   20 M: LB M . RB
+
+    RB  shift, and go to state 51
+
+
+state 43
+
+   14 X: LB X . RB
+
+    RB  shift, and go to state 46
+
+
+state 44
+
+   17 N: LB PTR ID . RB
+
+    RB  shift, and go to state 58
+
+
+state 45
+
+    6 Y: LB CLB X . CRB
+    9  | LB CLB X . CRB RB
+
+    CRB  shift, and go to state 59
+
+
+state 46
+
+   14 X: LB X RB .
+
+    $default  reduce using rule 14 (X)
+
+
+state 47
+
+    7 Y: LB X CRB .
+
+    $default  reduce using rule 7 (Y)
+
+
+state 48
+
+   16 N: LB N RB .
+
+    $default  reduce using rule 16 (N)
+
+
+state 49
+
+   12 X: M LS . M
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    M  go to state 55
+
+
+state 50
+
+   13 X: M RS . M
+   18 M: . ID
+   19  | . NUMBER
+   20  | . LB M RB
+
+    ID      shift, and go to state 18
+    LB      shift, and go to state 19
+    NUMBER  shift, and go to state 6
+
+    M  go to state 56
+
+
+state 51
+
+   20 M: LB M RB .
+
+    $default  reduce using rule 20 (M)
+
+
+state 52
+
+    8 Y: CLB X RB .
+
+    $default  reduce using rule 8 (Y)
+
+
+state 53
+
+    3 expr: CLB X CRB .  [SEMI, NL]
+    5 Y: CLB X CRB . RB
+
+    RB  shift, and go to state 60
+
+    $default  reduce using rule 3 (expr)
+
+
+state 54
+
+    1 statement: expr SEMI NL .
+
+    $default  reduce using rule 1 (statement)
+
+
+state 55
+
+   12 X: M LS M .
+
+    $default  reduce using rule 12 (X)
+
+
+state 56
+
+   13 X: M RS M .
+
+    $default  reduce using rule 13 (X)
+
+
+state 57
+
+   25 err: M SPACE M .
+
+    $default  reduce using rule 25 (err)
+
+
+state 58
+
+   17 N: LB PTR ID RB .
+
+    $default  reduce using rule 17 (N)
+
+
+state 59
+
+    6 Y: LB CLB X CRB .  [NL]
+    9  | LB CLB X CRB . RB
+
+    RB  shift, and go to state 61
+
+    $default  reduce using rule 6 (Y)
+
+
+state 60
+
+    5 Y: CLB X CRB RB .
+
+    $default  reduce using rule 5 (Y)
+
+
+state 61
+
+    9 Y: LB CLB X CRB RB .
+
+    $default  reduce using rule 9 (Y)
